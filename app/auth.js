@@ -8,6 +8,29 @@ import bcrypt from "bcrypt";
 // const bcrypt = (import('bcrypt')).default;
 // const CredentialsProvider = (import('next-auth/providers/credentials')).default;
 
+const register = async (formData) => {
+
+  const firstName = formData.get("firstname");
+  const lastName = formData.get("lastname") ;
+  const email = formData.get("email") ;
+  const password = formData.get("password");
+
+  if (!firstName || !lastName || !email || !password) {
+    throw new Error("Please fill all fields");
+  }
+
+   connectToDB();
+
+  // existing user
+  const existingUser = await User.findOne({ email });
+  if (existingUser) throw new Error("User already exists");
+
+  const hashedPassword = await hash(password, 12);
+  const name = firstName + " " +lastName
+  await User.create({ name, email, password: hashedPassword });
+  console.log(`User created successfully 🥂`);
+  redirect("/login");
+};
 const login = async (credentials) => {
 
   try {
