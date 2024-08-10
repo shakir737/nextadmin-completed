@@ -10,11 +10,11 @@ import bcrypt from "bcrypt";
 
 
 const login = async (credentials) => {
-
+  console.log(credentials);
   try {
     connectToDB();
     const user = await User.findOne({ email: credentials.email });
-
+    console.log(user);
     if (!user) throw new Error("Wrong credentials!");
 
     const isPasswordCorrect = await bcrypt.compare(
