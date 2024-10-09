@@ -8,8 +8,8 @@ import bcrypt from "bcrypt";
 import { signIn } from "../auth";
 
 export const addUser = async (formData) => {
-  const { username, email, password, phone, address, isAdmin, isActive } =
-    Object.fromEntries(formData);
+  const { name, email, password } = formData;
+  // Object.fromEntries(formData);
 
   try {
     connectToDB();
@@ -18,13 +18,9 @@ export const addUser = async (formData) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({
-      username,
+      name,
       email,
       password: hashedPassword,
-      phone,
-      address,
-      isAdmin,
-      isActive,
     });
 
     await newUser.save();
@@ -33,8 +29,8 @@ export const addUser = async (formData) => {
     throw new Error("Failed to create user!");
   }
 
-  revalidatePath("/dashboard/users");
-  redirect("/dashboard/users");
+  revalidatePath("/");
+  redirect("/");
 };
 
 export const updateUser = async (formData) => {
@@ -72,7 +68,6 @@ export const updateUser = async (formData) => {
 export const addProduct = async (formData) => {
   const { title, desc, price, stock, color, size } =
     Object.fromEntries(formData);
-
   try {
     connectToDB();
 
@@ -155,9 +150,12 @@ export const deleteProduct = async (formData) => {
 };
 
 export const authenticate = async (prevState, formData) => {
-  const { username:email, password } = Object.fromEntries(formData);
+  const { email, password } = Object.fromEntries(formData);
+  // const name = "shakir raza";
+  // const user = { name, email, password };
 
   try {
+    // await addUser(user);
     await signIn("credentials", { email, password });
   } catch (err) {
     if (err.message.includes("CredentialsSignin")) {

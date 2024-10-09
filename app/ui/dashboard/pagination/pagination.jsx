@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const Pagination = ({ count }) => {
   const searchParams = useSearchParams();
-  const { replace } = useRouter();
+  const router = useRouter();
   const pathname = usePathname();
 
   const page = searchParams.get("page") || 1;
@@ -16,11 +16,11 @@ const Pagination = ({ count }) => {
   const hasPrev = ITEM_PER_PAGE * (parseInt(page) - 1) > 0;
   const hasNext = ITEM_PER_PAGE * (parseInt(page) - 1) + ITEM_PER_PAGE < count;
 
-  const handleChangePage = (type) => {
-    type === "prev"
-      ? params.set("page", parseInt(page) - 1)
-      : params.set("page", parseInt(page) + 1);
-    replace(`${pathname}?${params}`);
+  const handleChangePage = () => {
+    console.log(true);
+    console.log(pathname);
+    params.set("page", parseInt(page) + 1);
+    router.push(`${pathname}?page=${page + 1}`);
   };
 
   return (
@@ -28,14 +28,14 @@ const Pagination = ({ count }) => {
       <button
         className={styles.button}
         disabled={!hasPrev}
-        onClick={() => handleChangePage("prev")}
+        onClick={handleChangePage()}
       >
         Previous
       </button>
       <button
         className={styles.button}
         disabled={!hasNext}
-        onClick={() => handleChangePage("next")}
+        onClick={handleChangePage()}
       >
         Next
       </button>
