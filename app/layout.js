@@ -2,12 +2,10 @@ import { Inter } from "next/font/google";
 import "./ui/globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-
 export const metadata = {
   title: "E-Comerse App",
   description: "Next.js 14 EComerse App",
 };
-
 export default async function RootLayout({ children }) {
   return (
     <html lang="en">
