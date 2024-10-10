@@ -3,11 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { authConfig } from "./authconfig";
 import { connectToDB } from "./lib/utils";
 import { User } from "./lib/models";
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 // const NextAuth = (import('next-auth')).default;
 // const bcrypt = (import('bcrypt')).default;
 // const CredentialsProvider = (import('next-auth/providers/credentials')).default;
-
 
 const login = async (credentials) => {
   console.log(credentials);
@@ -17,10 +16,10 @@ const login = async (credentials) => {
     console.log(user);
     if (!user) throw new Error("Wrong credentials!");
 
-    const isPasswordCorrect = await bcrypt.compare(
-      credentials.password,
-      user.password
-    );
+    // const isPasswordCorrect = await bcrypt.compare(
+    //   credentials.password,
+    //   user.password
+    // );
 
     if (!isPasswordCorrect) throw new Error("Password Is Incorect!");
 
